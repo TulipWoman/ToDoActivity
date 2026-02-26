@@ -3,6 +3,8 @@ package com.example.todoactivity;
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -42,7 +44,28 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onSaveClick(View view) {
+
         Log.d("ToDoActivity", "onSaveClick");
+        //Section 1 - week 2
+
+        EditText titleView = findViewById (R.id.taskTitleView);
+        EditText descView = findViewById (R.id.taskDescriptionView);
+        EditText dateView = findViewById (R.id.taskDueDateView);
+        EditText timeView = findViewById (R.id.taskDueTimeView);
+        String title = titleView.getText().toString();
+        String desc = descView.getText().toString();
+        String date = dateView.getText().toString();
+        String time = timeView.getText().toString();
+
+        // Section 2 - week 3 preferences
+        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        //String storedTitle = sharedPref.getString("title", "None");
+        editor.putString("title", title);
+        editor.putString("desc", desc);
+        editor.putString("date", date);
+        editor.putString("time", time);
+        editor.apply();
     }
 
     public void onDateClick(View view) {
@@ -81,5 +104,7 @@ public class MainActivity extends AppCompatActivity {
         TimePickerDialog dialog = new TimePickerDialog(this, listener, 1111, 1, true);
         dialog.show();//display the dialog
     }
+
+
 
 }
