@@ -41,4 +41,7 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+    //Section 3 - week 3
+    implementation("androidx.room:room-runtime:2.8.4")
+    annotationProcessor("androidx.room:room-complier:2.8.4")
 }
