@@ -24,10 +24,13 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.List;
 import java.util.concurrent.Executor;
@@ -67,6 +70,16 @@ public class MainActivity extends AppCompatActivity {
         }
         catch (FileNotFoundException e) { e.printStackTrace(); }
         catch (IOException e) { e.printStackTrace();}
+
+        try{
+            FileInputStream fis = new FileInputStream(file);
+            InputStreamReader isr = new InputStreamReader(fis);
+            BufferedReader bufferedReader = new BufferedReader(isr);
+            String content = bufferedReader.readLine();
+            Log.d("ToDoAPP", content);
+        }
+        catch (FileNotFoundException e) { e.printStackTrace();}
+        catch (IOException e ) {e.printStackTrace();}
 
         Button saveButton = findViewById(R.id.saveTaskButton);
 
