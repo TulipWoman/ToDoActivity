@@ -15,4 +15,5 @@ public interface TasksDAO {
     @Query("SELECT * FROM task")
     LiveData<List<Task>> observeAll();
 
+
 }
