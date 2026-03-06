@@ -2,10 +2,12 @@ package com.example.todoactivity;
 
 import android.content.Context;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
+import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -15,7 +17,7 @@ public abstract class TasksDB extends RoomDatabase {
     public abstract TasksDAO tasksDAO();
 
     private static final String DB_NAME = "tasks_database_name";
-    private static TasksDB db;
+    public static TasksDB db;
 
     //Return a database instance.
     //If the database instance already exists it return the existing instance.
@@ -32,7 +34,6 @@ public abstract class TasksDB extends RoomDatabase {
     private static TasksDB buildDatabaseInstance(Context context) {
         return Room.databaseBuilder(context, TasksDB.class, DB_NAME).build();
     }
-
 
 
 }

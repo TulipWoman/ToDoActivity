@@ -1,5 +1,8 @@
 package com.example.todoactivity;
 
+
+import static com.example.todoactivity.TasksDB.db;
+
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -18,7 +21,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -32,7 +43,30 @@ public class MainActivity extends AppCompatActivity {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
+
         });
+        //create an instance of the Database
+        TasksDB db = TasksDB.getInstance(this);
+        LiveData<List<Task>> tasks = db.tasksDAO().observeAll();
+        tasks.observe(this, new Observer<List<Task>>() {
+            @Override
+            public void onChanged(List<Task> tasks) {
+                for (Task task: tasks) {
+                    Log.d("ToDoApp", task.title + ":" + task.description);
+                }
+            }
+        });
+        String filename ="myFile.txt";
+        String contents ="Here's some text";
+        File file = new File(getFilesDir(), filename);
+        try{
+            FileOutputStream fos = new FileOutputStream(filename);
+            OutputStreamWriter osw = new OutputStreamWriter(fos);
+            osw.write(contents);
+            osw.close();
+        }
+        catch (FileNotFoundException e) { e.printStackTrace(); }
+        catch (IOException e) { e.printStackTrace();}
 
         Button saveButton = findViewById(R.id.saveTaskButton);
 
@@ -41,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 Log.d("ToDoActivity", "onSaveClick");
+
 
             }
         });
@@ -72,8 +107,6 @@ public class MainActivity extends AppCompatActivity {
 //        editor.apply();
 
 
-        //create an instance of the Database
-        TasksDB db = TasksDB.getInstance(this);
         //create a new Task
         final Task task1 = new Task();
         task1.title = "test_title";
@@ -131,6 +164,8 @@ public class MainActivity extends AppCompatActivity {
 
         TimePickerDialog dialog = new TimePickerDialog(this, listener, 1111, 1, true);
         dialog.show();//display the dialog
+
+
     }
 
 
