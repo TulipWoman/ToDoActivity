@@ -1,6 +1,9 @@
 package com.example.todoactivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,3 +25,5 @@ public class ToDoListActivity extends AppCompatActivity {
         });
     }
 }
+
+
