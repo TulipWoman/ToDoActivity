@@ -50,55 +50,51 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        String filename ="myFile.txt";
-        String contents ="Here's some text";
+        String filename = "myFile.txt";
+        String contents = "Here's some text";
 
         File file = new File(getFilesDir(), filename);
-
-        try{
-            FileOutputStream fos = new FileOutputStream(file);
-            OutputStreamWriter osw = new OutputStreamWriter(fos);
-            osw.write(contents);
-            osw.close();
-        }
-        catch (FileNotFoundException e) { e.printStackTrace(); }
-        catch (IOException e) { e.printStackTrace(); }
-
-        try{
-            FileInputStream fis = new FileInputStream(file);
-            InputStreamReader isr = new InputStreamReader(fis);
-            BufferedReader bufferedReader = new BufferedReader(isr);
-            String content = bufferedReader.readLine();
-            Log.d("ToDoAPP", content);
-        }
-        catch (FileNotFoundException e) { e.printStackTrace(); }
-        catch (IOException e ) { e.printStackTrace(); }
-
-        Button saveButton = findViewById(R.id.saveTaskButton);
-
-        saveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d("ToDoActivity", "onSaveClick");
-            }
-        });
     }
 
-    @Override
-    protected void onResume(){
-        super.onResume();
-        Log.d("ToDoApp", "onResume");
-    }
+//        try{
+//            FileOutputStream fos = new FileOutputStream(file);
+//            OutputStreamWriter osw = new OutputStreamWriter(fos);
+//            osw.write(contents);
+//            osw.close();
+//        }
+//        catch (FileNotFoundException e) { e.printStackTrace(); }
+//        catch (IOException e) { e.printStackTrace(); }
+//
+//        try{
+//            FileInputStream fis = new FileInputStream(file);
+//            InputStreamReader isr = new InputStreamReader(fis);
+//            BufferedReader bufferedReader = new BufferedReader(isr);
+//            String content = bufferedReader.readLine();
+//            Log.d("ToDoAPP", content)
+// }
+//        catch (FileNotFoundException e) { e.printStackTrace(); }
+//        catch (IOException e ) { e.printStackTrace(); }
 
-    public void onNewTaskClicked(View view){
-        Log.d("ToDoApp", "onNewTaskClicked");
+//        Button saveButton = findViewById(R.id.saveTaskButton);
+//
+//        saveButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Log.d("ToDoActivity", "onSaveClick");
+//            }
+//        });
 
-        Intent taskIntent = new Intent(this, ToDoListActivity.class);
-        startActivity(taskIntent);
-    }
+
 
     public void onSaveClick(View view) {
 
+//            EditText titleView = findViewById(R.id.taskTitleView);
+//            EditText descView = findViewById(R.id.taskDescriptionView);
+//            EditText dateView = findViewById(R.id.taskDueDateView);
+//            EditText timeView = findViewById(R.id.taskDueTimeView);
+//            String title = titleView.getText().toString();
+
+        TasksDB db = TasksDB.getInstance(this);
         Log.d("ToDoActivity", "onSaveClick");
 
         final Task task1 = new Task();
@@ -113,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        finish();
+//        finish();
     }
 
     public void onDateClick(View view) {
