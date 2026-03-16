@@ -48,13 +48,14 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        db = TasksDB.getInstance(this);
 
-
-        String filename = "myFile.txt";
-        String contents = "Here's some text";
-
-        File file = new File(getFilesDir(), filename);
     }
+//        String filename = "myFile.txt";
+//        String contents = "Here's some text";
+//
+//        File file = new File(getFilesDir(), filename);
+
 
 //        try{
 //            FileOutputStream fos = new FileOutputStream(file);
@@ -146,15 +147,10 @@ public class MainActivity extends AppCompatActivity {
         TimePickerDialog dialog = new TimePickerDialog(this, listener, 11, 1, true);
         dialog.show();
     }
-    public void onCameraClick(View view) {
-    //Handles the camera button clicks
+    public void onCameraClick (View view){
+        String imageFileName = "JPEG_" + System.currentTimeMillis()+".jpg";
+        File imageFile= new File(getFilesDir(), imageFileName);
         Log.d("ToDoApp", "onCameraClick");
-
-    //Create a unique file name to store the image using the current time
-    String imageFileName = "JPEG_" + System.currentTimeMillis() + "jpg";
-
-    //Create a new file in the application file folder
-    File imageFile = new File(getFilesDir(), imageFileName);
 
     }
 }
