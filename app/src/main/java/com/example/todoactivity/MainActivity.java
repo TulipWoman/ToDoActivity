@@ -49,28 +49,6 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        db = TasksDB.getInstance(this);
-
-        LinearLayout linearLayout = findViewById(R.id.taskLinearLayout);
-
-        LiveData<List<Task>> tasks = db.tasksDAO().observeAll();
-
-        tasks.observe(this, new Observer<List<Task>>() {
-            @Override
-            public void onChanged(List<Task> tasks) {
-
-                linearLayout.removeAllViews();
-
-                for (Task task : tasks) {
-                    Log.d("ToDoApp", task.title + ":" + task.description);
-
-                    TextView textView = new TextView(getApplicationContext());
-                    textView.setText(task.title);
-
-                    linearLayout.addView(textView);
-                }
-            }
-        });
 
         String filename ="myFile.txt";
         String contents ="Here's some text";
@@ -171,5 +149,16 @@ public class MainActivity extends AppCompatActivity {
 
         TimePickerDialog dialog = new TimePickerDialog(this, listener, 11, 1, true);
         dialog.show();
+    }
+    public void onCameraClick(View view) {
+    //Handles the camera button clicks
+        Log.d("ToDoApp", "onCameraClick");
+
+    //Create a unique file name to store the image using the current time
+    String imageFileName = "JPEG_" + System.currentTimeMillis() + "jpg";
+
+    //Create a new file in the application file folder
+    File imageFile = new File(getFilesDir(), imageFileName);
+
     }
 }
