@@ -19,8 +19,6 @@
         android:id="@+id/taskTitleView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:clickable="true"
-        android:focusable="false"
         android:hint="Task Title"
         android:inputType="textPersonName"
         android:onClick="onSaveClick"

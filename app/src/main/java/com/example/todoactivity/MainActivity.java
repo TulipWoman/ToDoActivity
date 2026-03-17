@@ -89,12 +89,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void onSaveClick(View view) {
 
-//            EditText titleView = findViewById(R.id.taskTitleView);
-//            EditText descView = findViewById(R.id.taskDescriptionView);
-//            EditText dateView = findViewById(R.id.taskDueDateView);
-//            EditText timeView = findViewById(R.id.taskDueTimeView);
-//            String title = titleView.getText().toString();
-
         TasksDB db = TasksDB.getInstance(this);
         Log.d("ToDoActivity", "onSaveClick");
 
@@ -111,6 +105,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
 //        finish();
+
     }
 
     public void onDateClick(View view) {
