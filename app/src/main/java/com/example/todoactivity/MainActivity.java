@@ -49,28 +49,8 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        db = TasksDB.getInstance(this);
 
-        LinearLayout linearLayout = findViewById(R.id.taskLinearLayout);
 
-        LiveData<List<Task>> tasks = db.tasksDAO().observeAll();
-
-        tasks.observe(this, new Observer<List<Task>>() {
-            @Override
-            public void onChanged(List<Task> tasks) {
-
-                linearLayout.removeAllViews();
-
-                for (Task task : tasks) {
-                    Log.d("ToDoApp", task.title + ":" + task.description);
-
-                    TextView textView = new TextView(getApplicationContext());
-                    textView.setText(task.title);
-
-                    linearLayout.addView(textView);
-                }
-            }
-        });
 
         String filename ="myFile.txt";
         String contents ="Here's some text";
@@ -95,15 +75,6 @@ public class MainActivity extends AppCompatActivity {
         }
         catch (FileNotFoundException e) { e.printStackTrace(); }
         catch (IOException e ) { e.printStackTrace(); }
-
-        Button saveButton = findViewById(R.id.saveTaskButton);
-
-        saveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d("ToDoActivity", "onSaveClick");
-            }
-        });
     }
 
     @Override
@@ -112,20 +83,17 @@ public class MainActivity extends AppCompatActivity {
         Log.d("ToDoApp", "onResume");
     }
 
-    public void onNewTaskClicked(View view){
-        Log.d("ToDoApp", "onNewTaskClicked");
 
-        Intent taskIntent = new Intent(this, ToDoListActivity.class);
-        startActivity(taskIntent);
-    }
 
     public void onSaveClick(View view) {
 
         Log.d("ToDoActivity", "onSaveClick");
 
+        EditText title = findViewById(R.id.taskTitleView);
+        TextView desc = findViewById(R.id.description);
         final Task task1 = new Task();
-        task1.title = "test_title";
-        task1.description = "a very meaningful description";
+        task1.title = title.getText().toString();
+        task1.description = desc.getText().toString();
 
         Executor myExecutor = Executors.newSingleThreadExecutor();
         myExecutor.execute(new Runnable() {
