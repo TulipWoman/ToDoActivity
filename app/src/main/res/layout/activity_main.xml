@@ -21,7 +21,6 @@
         android:layout_height="wrap_content"
         android:hint="Task Title"
         android:inputType="textPersonName"
-        android:onClick="onSaveClick"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title" />
@@ -75,12 +74,23 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/taskDueDateView" />
 
-
+    <EditText
+        android:id="@+id/taskDueTimeView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:focusable="false"
+        android:hint="00:00"
+        android:inputType="time"
+        android:onClick="onTimeClick"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dueTime" />
 
     <Button
         android:id="@+id/saveTaskButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:onClick="onSaveClick"
         android:text="Save"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

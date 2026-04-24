@@ -48,53 +48,52 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        db = TasksDB.getInstance(this);
 
+
+
+
+        String filename ="myFile.txt";
+        String contents ="Here's some text";
+
+        File file = new File(getFilesDir(), filename);
+
+        try{
+            FileOutputStream fos = new FileOutputStream(file);
+            OutputStreamWriter osw = new OutputStreamWriter(fos);
+            osw.write(contents);
+            osw.close();
+        }
+        catch (FileNotFoundException e) { e.printStackTrace(); }
+        catch (IOException e) { e.printStackTrace(); }
+
+        try{
+            FileInputStream fis = new FileInputStream(file);
+            InputStreamReader isr = new InputStreamReader(fis);
+            BufferedReader bufferedReader = new BufferedReader(isr);
+            String content = bufferedReader.readLine();
+            Log.d("ToDoAPP", content);
+        }
+        catch (FileNotFoundException e) { e.printStackTrace(); }
+        catch (IOException e ) { e.printStackTrace(); }
     }
-//        String filename = "myFile.txt";
-//        String contents = "Here's some text";
-//
-//        File file = new File(getFilesDir(), filename);
 
-
-//        try{
-//            FileOutputStream fos = new FileOutputStream(file);
-//            OutputStreamWriter osw = new OutputStreamWriter(fos);
-//            osw.write(contents);
-//            osw.close();
-//        }
-//        catch (FileNotFoundException e) { e.printStackTrace(); }
-//        catch (IOException e) { e.printStackTrace(); }
-//
-//        try{
-//            FileInputStream fis = new FileInputStream(file);
-//            InputStreamReader isr = new InputStreamReader(fis);
-//            BufferedReader bufferedReader = new BufferedReader(isr);
-//            String content = bufferedReader.readLine();
-//            Log.d("ToDoAPP", content)
-// }
-//        catch (FileNotFoundException e) { e.printStackTrace(); }
-//        catch (IOException e ) { e.printStackTrace(); }
-
-//        Button saveButton = findViewById(R.id.saveTaskButton);
-//
-//        saveButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Log.d("ToDoActivity", "onSaveClick");
-//            }
-//        });
+    @Override
+    protected void onResume(){
+        super.onResume();
+        Log.d("ToDoApp", "onResume");
+    }
 
 
 
     public void onSaveClick(View view) {
 
-        TasksDB db = TasksDB.getInstance(this);
         Log.d("ToDoActivity", "onSaveClick");
 
+        EditText title = findViewById(R.id.taskTitleView);
+        TextView desc = findViewById(R.id.description);
         final Task task1 = new Task();
-        task1.title = "test_title";
-        task1.description = "a very meaningful description";
+        task1.title = title.getText().toString();
+        task1.description = desc.getText().toString();
 
         Executor myExecutor = Executors.newSingleThreadExecutor();
         myExecutor.execute(new Runnable() {
@@ -104,8 +103,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-//        finish();
-
+        finish();
     }
 
     public void onDateClick(View view) {

@@ -1,7 +1,5 @@
 package com.example.todoactivity;
 
-import static com.example.todoactivity.TasksDB.db;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,18 +25,15 @@ public class ToDoListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_to_do_list_layout);
-
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
         db = TasksDB.getInstance(this);
         LinearLayout linearLayout = findViewById(R.id.taskLinearLayout);
-
-
         LiveData<List<Task>> tasks = db.tasksDAO().observeAll();
 
         tasks.observe(this, new Observer<List<Task>>() {
@@ -57,23 +52,21 @@ public class ToDoListActivity extends AppCompatActivity {
                 }
             }
         });
+
     }
+
     @Override
     protected void onResume() {
         super.onResume();
-        Log.d("ToDoApp", "onResume");
     }
 
-    public void onNewTaskClicked(View view) {
+    public void onNewTaskClicked(View view){
         Log.d("ToDoApp", "onNewTaskClicked");
 
-        //create explicit intent for ToDoActivity
         Intent taskIntent = new Intent(this, MainActivity.class);
         startActivity(taskIntent);
-
-
     }
-}
 
+}
 
 
