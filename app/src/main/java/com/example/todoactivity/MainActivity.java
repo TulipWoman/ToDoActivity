@@ -46,8 +46,9 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 public class MainActivity extends AppCompatActivity {
-ActivityResultLauncher<Intent> launchCameraActivity;
+    ActivityResultLauncher<Intent> launchCameraActivity;
     Uri imageUri;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,37 +76,40 @@ ActivityResultLauncher<Intent> launchCameraActivity;
                     }
                 });
 
-        String filename ="myFile.txt";
-        String contents ="Here's some text";
+        String filename = "myFile.txt";
+        String contents = "Here's some text";
 
         File file = new File(getFilesDir(), filename);
 
-        try{
+        try {
             FileOutputStream fos = new FileOutputStream(file);
             OutputStreamWriter osw = new OutputStreamWriter(fos);
             osw.write(contents);
             osw.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        catch (FileNotFoundException e) { e.printStackTrace(); }
-        catch (IOException e) { e.printStackTrace(); }
 
-        try{
+        try {
             FileInputStream fis = new FileInputStream(file);
             InputStreamReader isr = new InputStreamReader(fis);
             BufferedReader bufferedReader = new BufferedReader(isr);
             String content = bufferedReader.readLine();
             Log.d("ToDoAPP", content);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        catch (FileNotFoundException e) { e.printStackTrace(); }
-        catch (IOException e ) { e.printStackTrace(); }
     }
 
     @Override
-    protected void onResume(){
+    protected void onResume() {
         super.onResume();
         Log.d("ToDoApp", "onResume");
     }
-
 
 
     public void onSaveClick(View view) {
@@ -168,7 +172,8 @@ ActivityResultLauncher<Intent> launchCameraActivity;
         TimePickerDialog dialog = new TimePickerDialog(this, listener, 11, 1, true);
         dialog.show();
     }
-    public void onCameraClick (View view) {
+
+    public void onCameraClick(View view) {
         //Declare a new URI at the top of class
         Log.d("ToDoApp", "onCameraClick");
 
@@ -181,11 +186,8 @@ ActivityResultLauncher<Intent> launchCameraActivity;
         );
 
         //Create an intent to launch camera activity
-        Intent takePictureIntent = new Intent (MediaStore.ACTION_IMAGE_CAPTURE);
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-
-
-
 
 
         launchCameraActivity.launch(takePictureIntent);

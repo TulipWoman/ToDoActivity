@@ -1,9 +1,11 @@
 package com.example.todoactivity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -45,10 +47,18 @@ public class ToDoListActivity extends AppCompatActivity {
                 for (Task task : tasks) {
                     Log.d("ToDoApp", task.title + ":" + task.description);
 
-                    TextView textView = new TextView(getApplicationContext());
-                    textView.setText(task.title);
+//                    TextView textView = new TextView(getApplicationContext());
+//                    textView.setText(task.title);
+//                    linearLayout.addView(textView);
+                    View listView = getLayoutInflater().inflate(R.layout.task_layout, linearLayout, false);
+                    TextView titleView = listView.findViewById(R.id.taskTitleView);
+                    TextView descView = listView.findViewById(R.id.taskListDesc);
+                    ImageView imageView = listView.findViewById(R.id.taskListImage);
+                    titleView.setText(task.title);
+                    descView.setText(task.description);
+                    imageView.setImageURI(Uri.parse(task.imageURI));
 
-                    linearLayout.addView(textView);
+                    linearLayout.addView(listView);
                 }
             }
         });
