@@ -7,17 +7,26 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContract;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -37,7 +46,8 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 public class MainActivity extends AppCompatActivity {
-
+ActivityResultLauncher<Intent> launchCameraActivity;
+    Uri imageUri;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,10 +57,23 @@ public class MainActivity extends AppCompatActivity {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
+
+
         });
 
+        launchCameraActivity = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>() {
+                    @Override
+                    public void onActivityResult(ActivityResult activityResult) {
+                        if (activityResult.getResultCode() == RESULT_OK) {
+                            ImageView taskImage = findViewById(R.id.imageView);
+                            taskImage.setImageURI(imageUri);
+                            Log.d("ToDoApp", "picture store in: " + imageUri);
 
-
+                        }
+                    }
+                });
 
         String filename ="myFile.txt";
         String contents ="Here's some text";
@@ -91,7 +114,11 @@ public class MainActivity extends AppCompatActivity {
 
         EditText title = findViewById(R.id.taskTitleView);
         TextView desc = findViewById(R.id.description);
+
         final Task task1 = new Task();
+        if (imageUri != null) {
+            task1.imageURI = imageUri.toString();
+        }
         task1.title = title.getText().toString();
         task1.description = desc.getText().toString();
 
@@ -101,6 +128,7 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 db.tasksDAO().insert(task1);
             }
+
         });
 
         finish();
@@ -140,10 +168,26 @@ public class MainActivity extends AppCompatActivity {
         TimePickerDialog dialog = new TimePickerDialog(this, listener, 11, 1, true);
         dialog.show();
     }
-    public void onCameraClick (View view){
-        String imageFileName = "JPEG_" + System.currentTimeMillis()+".jpg";
-        File imageFile= new File(getFilesDir(), imageFileName);
+    public void onCameraClick (View view) {
+        //Declare a new URI at the top of class
         Log.d("ToDoApp", "onCameraClick");
 
+        String imageFileName = "JPEG_" + System.currentTimeMillis() + ".jpg";
+
+        File imageFile = new File(getFilesDir(), imageFileName);
+        //Unique Uri to this file using file provider created
+        imageUri = FileProvider.getUriForFile(
+                this, "com.example.todoactivity.fileprovider", imageFile
+        );
+
+        //Create an intent to launch camera activity
+        Intent takePictureIntent = new Intent (MediaStore.ACTION_IMAGE_CAPTURE);
+        takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+
+
+
+
+
+        launchCameraActivity.launch(takePictureIntent);
     }
 }

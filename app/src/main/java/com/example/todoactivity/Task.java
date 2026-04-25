@@ -13,6 +13,8 @@ public class Task {
     public String description;
     @ColumnInfo(name = "duedate")
     public Long duedate;
+    @ColumnInfo(name = "image")
+    public String imageURI;
 
 
 }
