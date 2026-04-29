@@ -66,8 +66,7 @@ public class TaskListActivity extends
     }
 
 
-    }
-
+}
 
 
 
