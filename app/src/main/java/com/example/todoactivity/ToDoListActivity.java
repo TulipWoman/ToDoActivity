@@ -42,6 +42,7 @@ public class ToDoListActivity extends AppCompatActivity {
             @Override
             public void onChanged(List<Task> tasks) {
 
+
                 linearLayout.removeAllViews();
 
                 for (Task task : tasks) {
@@ -57,6 +58,7 @@ public class ToDoListActivity extends AppCompatActivity {
                     titleView.setText(task.title);
                     descView.setText(task.description);
                     imageView.setImageURI(Uri.parse(task.imageURI));
+                    task.done = false;
 
                     linearLayout.addView(listView);
                 }

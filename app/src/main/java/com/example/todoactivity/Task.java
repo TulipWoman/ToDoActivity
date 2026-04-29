@@ -15,6 +15,8 @@ public class Task {
     public Long duedate;
     @ColumnInfo(name = "image")
     public String imageURI;
+    @ColumnInfo(name = "done")
+    public boolean done;
 
 
 }
